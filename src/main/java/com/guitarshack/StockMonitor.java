@@ -19,21 +19,9 @@ public class StockMonitor {
     }
 
     public void productSold(int productId, int quantity) {
-        String baseURL = "https://6hr1390c1j.execute-api.us-east-2.amazonaws.com/default/product";
-        Map<String, Object> params = new HashMap<>() {{
-            put("id", productId);
-        }};
-        String paramString = "?";
-
-        for (String key : params.keySet()) {
-            paramString += key + "=" + params.get(key).toString() + "&";
-        }
+        Product product = new Warehouse(service).getProduct(productId);
 
 
-        String result = service.fetchJSON(baseURL, paramString);
-
-
-        Product product = new Gson().fromJson(result, Product.class);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(Calendar.getInstance().getTime());
         Date endDate = calendar.getTime();
@@ -55,7 +43,8 @@ public class StockMonitor {
         String result1 = service.fetchJSON("https://gjtvhjg8e9.execute-api.us-east-2.amazonaws.com/default/sales", paramString1);
 
         SalesTotal total = new Gson().fromJson(result1, SalesTotal.class);
-        if(product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime()))
+        int reorderLevel = (int) ((double) (total.getTotal() / 30) * product.getLeadTime());
+        if(product.getStock() - quantity <= reorderLevel)
             alert.send(product);
     }
 

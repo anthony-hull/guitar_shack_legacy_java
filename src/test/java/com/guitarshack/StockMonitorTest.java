@@ -8,7 +8,6 @@ import static org.mockito.Mockito.*;
 
 public class StockMonitorTest {
 
-
     private Alert alert;
     private StockMonitor stockMonitor;
 
@@ -28,10 +27,9 @@ public class StockMonitorTest {
         verify(alert).send(any());
     }
 
-
     @Test
     public void alertIsNotSent() {
-        stockMonitor.productSold(811,0);
-        verify(alert,never()).send(any());
+        stockMonitor.productSold(811, 0);
+        verify(alert, never()).send(any());
     }
 }
