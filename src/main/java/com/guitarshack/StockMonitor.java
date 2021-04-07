@@ -2,18 +2,19 @@ package com.guitarshack;
 
 public class StockMonitor {
     private final Alert alert;
-    private final Service service;
+    private final Warehouse warehouse;
+    private final ReorderLevel reorderLevel;
 
-    public StockMonitor(Alert alert, Service service) {
+    public StockMonitor(Alert alert, Warehouse warehouse, ReorderLevel reorderLevel) {
         this.alert = alert;
-        this.service = service;
+        this.warehouse = warehouse;
+        this.reorderLevel = reorderLevel;
     }
 
     public void productSold(int productId, int quantity) {
-        Product product = new Warehouse(service).getProduct(productId);
+        Product product = warehouse.getProduct(productId);
 
-
-        int reorderLevel = new ReorderLevel(service).getReorderLevel(product);
+        int reorderLevel = this.reorderLevel.calculate(product);
         if(product.getStock() - quantity <= reorderLevel)
             alert.send(product);
     }

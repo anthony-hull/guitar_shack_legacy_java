@@ -18,7 +18,7 @@ public class StockMonitorTest {
         String productJSON = "{\"id\":811,\"stock\":29,\"leadTime\":14}";
         String salesJSON = "{\"total\":60}";
         when(service.fetchJSON(any(), any())).thenReturn(productJSON, salesJSON);
-        stockMonitor = new StockMonitor(alert, service);
+        stockMonitor = new StockMonitor(alert, new Warehouse(service), new ReorderLevel(service));
     }
 
     @Test

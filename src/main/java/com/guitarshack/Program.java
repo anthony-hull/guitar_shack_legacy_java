@@ -7,7 +7,7 @@ public class Program {
         System.out.println(
                 "You need to reorder product " + product.getId() +
                         ". Only " + product.getStock() + " remaining in stock");
-    }, new WebService());
+    }, new Warehouse(new WebService()), new ReorderLevel(new WebService()));
 
     public static void main(String[] args) {
         int productId = Integer.parseInt(args[0]);

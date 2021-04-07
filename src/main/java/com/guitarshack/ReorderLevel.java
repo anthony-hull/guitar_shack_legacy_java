@@ -16,7 +16,7 @@ public class ReorderLevel {
         this.service = service;
     }
 
-    int getReorderLevel(Product product) {
+    int calculate(Product product) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(Calendar.getInstance().getTime());
         Date endDate = calendar.getTime();
